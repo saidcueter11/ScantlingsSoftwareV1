@@ -6,7 +6,6 @@ export const Results = () => {
   const { zone } = useScantlingsContext()
   const { bottomPlating } = usePlating()
 
-  console.log({ bottomPlating })
   const isMetal = bottomPlating.type === 'Metal'
   const isSingleSkin = bottomPlating.type === 'SingleSkin'
 
@@ -23,7 +22,7 @@ export const Results = () => {
         <div>
           <p>El espesor del fondo (Fibra Laminada) es: </p>
           <p>{bottomPlating.tFinal}</p>
-          <p>{bottomPlating.wMin}</p>
+          <p>{bottomPlating.wMin as number}</p>
         </div>
       }
     </>

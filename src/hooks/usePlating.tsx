@@ -11,10 +11,10 @@ export const usePlating = () => {
 
   const { designCategoryKDC, bottomPressure, deckPressure, sideTransomPressure, washPlatesPressure, watertightBulkheadsPressure, integralTankBulkheadsPressure, collisionBulkheadsPressure } = usePressures()
 
-  const [bottomPlating, setBottomPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
+  const [bottomPlating, setBottomPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({ type: 'FrpSandwich' })
   const [sideTransomPlating, setSideTransomPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
   const [deckPlating, setDeckPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
-  const [superstructuresDeckhousesPlating, setSuperstructuresDeckhousesPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
+  // const [superstructuresDeckhousesPlating, setSuperstructuresDeckhousesPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
   const [watertightBulkheadsPlating, setWatertightBulkheadsPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
   const [integralTankBulkheadsPlating, setIntegralTankBulkheadsPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
   const [washPlatesPlating, setWashPlatesPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
@@ -190,7 +190,7 @@ export const usePlating = () => {
     }
   }
 
-  function calculateBottomPlating () {
+  function calculateBottomPlating (): SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating {
     const ar = l / b
     const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
     const pressure = bottomPressure
@@ -445,7 +445,7 @@ export const usePlating = () => {
     bottomPlating,
     sideTransomPlating,
     deckPlating,
-    superstructuresDeckhousesPlating,
+    // superstructuresDeckhousesPlating,
     watertightBulkheadsPlating,
     integralTankBulkheadsPlating,
     washPlatesPlating,

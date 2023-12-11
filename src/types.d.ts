@@ -9,7 +9,11 @@ export type PlatingType = 'SingleSkin' | 'Metal' | 'Wood' | 'FrpSandwich'
 export interface SingleSkinPlating {
   type?: 'SingleSkin'
   tFinal?: number
-  wMin?: number
+  wMin?: number | {
+    wos: number
+    wis: number
+    wMin: number
+  }
 }
 
 export interface MetalPlating {
@@ -30,5 +34,9 @@ export interface FrpSandwichPlating {
   thickness?: number
   wos?: number
   wis?: number
-  wMin?: number
+  wMin?: number | {
+    wos: number
+    wis: number
+    wMin: number
+  }
 }

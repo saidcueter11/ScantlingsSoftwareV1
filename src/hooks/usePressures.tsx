@@ -8,7 +8,7 @@ export const usePressures = () => {
   const [PBMMIN, setPBMMIN] = useState<number>(0)
   const [PSMMIN, setPSMMIN] = useState<number>(0)
   const [PDMBASE, setPDMBASE] = useState<number>(0)
-  const PDMMIN = 5
+  // const PDMMIN = 5
 
   const [bottomPressure, setBottomPressure] = useState<number>(0)
   const [sideTransomPressure, setSideTransomPressure] = useState<number>(0)
@@ -155,17 +155,17 @@ export const usePressures = () => {
     return PDM
   }
 
-  function calculateSuperstructuresDeckhousesPressure () {
-    const kAR = areaPressureReductionKAR()
-    const kDC = designCategoryKDC()
-    const kSUPValues = superstructureDeckhousePressureReductionKSUP()
+  // function calculateSuperstructuresDeckhousesPressure () {
+  //   const kAR = areaPressureReductionKAR()
+  //   const kDC = designCategoryKDC()
+  //   const kSUPValues = superstructureDeckhousePressureReductionKSUP()
 
-    return Object.entries(kSUPValues).map(([location, kSUP]) => (
-      {
-        location, pressure: Math.max(PDMBASE * kDC * kAR * kSUP, PDMMIN)
-      }
-    ))
-  }
+  //   return Object.entries(kSUPValues).map(([location, kSUP]) => (
+  //     {
+  //       location, pressure: Math.max(PDMBASE * kDC * kAR * kSUP, PDMMIN)
+  //     }
+  //   ))
+  // }
 
   function calculateWatertightBulkheadsPressure (): number {
     return 7 * hB
