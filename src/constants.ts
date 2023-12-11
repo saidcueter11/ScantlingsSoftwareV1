@@ -1,0 +1,6 @@
+export const PLATING_MATERIALS = ['Acero', 'Aluminio', 'Madera (laminada y plywood)', 'Fibra laminada', 'Fibra con nucleo (Sandwich)']
+export const CATEGORIA_EMBARCACION = ['Oceano', 'Offshore', 'Inshore', 'Aguas protegidas']
+export const ZONES = ['Fondo', 'Costados y Espejo', 'Cubierta', 'Superestructura', 'Mamparos estancos', 'Mamparos de tanques integrales', 'Placas anti oleaje', 'Mamparos de colisión']
+export const SKIN_TYPE = ['Fibra de vidrio E con filamentos cortados', 'Fibra de vidrio tejida', 'Fibra tejida de carbono, aramida(kevlar) o híbrida']
+export const CORE_MATERIALS = ['Madera Balsa', 'Núcleo con elongación al corte en rotura < 35 % (PVC entrecruzado, etc.)', 'Núcleo con elongación al corte en rotura > 35 % (PVC lineal, SAN, etc.)', 'Núcleos tipo panal de abeja (compatibles con aplicaciones marinas)']
+export const CONTEXT = ['Plating', 'Stiffeners']
