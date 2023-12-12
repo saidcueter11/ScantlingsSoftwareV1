@@ -8,6 +8,6 @@ export default {
     extend: {},
   },
   plugins: [
-    require('tailwindcss-dotted-background'),
+    require('tailwindcss-bg-patterns'),  
   ],
 }

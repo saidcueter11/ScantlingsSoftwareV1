@@ -43,6 +43,10 @@ export interface ScantlingsContextType {
   height: number
   base: number
   areaPerforation: number
+  sigmaCt: number
+  etc: number
+  setEtc: (value: number) => void
+  setSigmaCt: (value: number) => void
   setAreaPerforation: (value: number) => void
   setBase: (value: number) => void
   setHeight: (value: number) => void
@@ -128,6 +132,8 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   const [hs, setHs] = useState(0)
   const [hB, setHB] = useState(0)
   const [x, setX] = useState(0)
+  const [etc, setEtc] = useState(0)
+  const [sigmaCt, setSigmaCt] = useState(0)
   const [base, setBase] = useState(0)
   const [height, setHeight] = useState(0)
   const [areaPerforation, setAreaPerforation] = useState(0)
@@ -240,6 +246,10 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
     height,
     base,
     areaPerforation,
+    sigmaCt,
+    etc,
+    setEtc,
+    setSigmaCt,
     setAreaPerforation,
     setBase,
     setHeight,

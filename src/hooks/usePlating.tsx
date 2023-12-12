@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useScantlingsContext } from '../Context/ScantlingsContext'
 import { usePressures } from './usePressures'
-import { type PlatingType, type FrpSandwichPlating, type MetalPlating, type SingleSkinPlating, type WoodPlating } from '../types'
+import { type PlatingType, type PlatingResult } from '../types'
 
 export const usePlating = () => {
   const {
@@ -11,14 +11,14 @@ export const usePlating = () => {
 
   const { designCategoryKDC, bottomPressure, deckPressure, sideTransomPressure, washPlatesPressure, watertightBulkheadsPressure, integralTankBulkheadsPressure, collisionBulkheadsPressure } = usePressures()
 
-  const [bottomPlating, setBottomPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({ type: 'FrpSandwich' })
-  const [sideTransomPlating, setSideTransomPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
-  const [deckPlating, setDeckPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
-  // const [superstructuresDeckhousesPlating, setSuperstructuresDeckhousesPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
-  const [watertightBulkheadsPlating, setWatertightBulkheadsPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
-  const [integralTankBulkheadsPlating, setIntegralTankBulkheadsPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
-  const [washPlatesPlating, setWashPlatesPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
-  const [collisionBulkheadsPlating, setCollisionBulkheadsPlating] = useState<SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating>({})
+  const [bottomPlating, setBottomPlating] = useState<PlatingResult>({ type: 'FrpSandwich' })
+  const [sideTransomPlating, setSideTransomPlating] = useState<PlatingResult>({})
+  const [deckPlating, setDeckPlating] = useState<PlatingResult>({})
+  // const [superstructuresDeckhousesPlating, setSuperstructuresDeckhousesPlating] = useState<PlatingResult>({})
+  const [watertightBulkheadsPlating, setWatertightBulkheadsPlating] = useState<PlatingResult>({})
+  const [integralTankBulkheadsPlating, setIntegralTankBulkheadsPlating] = useState<PlatingResult>({})
+  const [washPlatesPlating, setWashPlatesPlating] = useState<PlatingResult>({})
+  const [collisionBulkheadsPlating, setCollisionBulkheadsPlating] = useState<PlatingResult>({})
 
   useEffect(() => {
     setBottomPlating(calculateBottomPlating())
@@ -175,9 +175,9 @@ export const usePlating = () => {
         const k6 = 1.0
         const wos = designCategoryKDC() * k4 * k5 * k6 * (0.1 * LWL + 0.15)
         const wis = 0.7 * wos
-        const tMin = k5 * (1.45 + 0.14 * LWL)
+        const wMin = k5 * (1.45 + 0.14 * LWL)
 
-        return material === 'Fibra con nucleo (Sandwich)' ? { wos, wis, tMin } : tMin
+        return material === 'Fibra con nucleo (Sandwich)' ? { wos, wis, wMin } : wMin
       }
       case 'Aluminio':
         return 1.35 + 0.06 * LWL
@@ -190,105 +190,20 @@ export const usePlating = () => {
     }
   }
 
-  function calculateBottomPlating (): SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating {
+  function calculateBottomPlating () {
     const ar = l / b
-    const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
-    const pressure = bottomPressure
-    let type: PlatingType
-
-    switch (material) {
-      case 'Fibra laminada': {
-        const tFinal = frpSingleSkinPlating(k2, pressure)
-        const wMin = minBottomThickness()
-        type = 'SingleSkin'
-        return { tFinal, wMin, type }
-      }
-      case 'Acero':
-      case 'Aluminio': {
-        const tFinal = Math.max(metalPlating(k2, pressure), minBottomThickness() as number)
-        type = 'Metal'
-        return { tFinal, type }
-      }
-      case 'Madera (laminada y plywood)': {
-        const tFinal = Math.max(woodPlating(k2, pressure), minBottomThickness() as number)
-        type = 'Wood'
-        return { tFinal, type }
-      }
-      case 'Fibra con nucleo (Sandwich)': {
-        const adjustB = Math.min(b, 330 * LH)
-        const k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028)
-        const { smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure)
-        const { wos, wis, wMin } = minBottomThickness() as { wos: number, wis: number, wMin: number }
-        type = 'FrpSandwich'
-        return { thickness, smInner, smOuter, secondI, wos, wis, wMin, type }
-      }
-      default:
-        return {} // Handle unknown materials
-    }
+    const adjustB = Math.min(b, 330 * LH)
+    return calculatePlating(bottomPressure, ar, adjustB, material, minBottomThickness)
   }
 
   function calculateSideTransomPlating () {
     const ar = l / b
-    const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
-    const pressure = sideTransomPressure
-
-    switch (material) {
-      case 'Fibra laminada': {
-        const tFinal = frpSingleSkinPlating(k2, pressure)
-        const wMin = minSideTransomThickness()
-        return { tFinal, wMin }
-      }
-      case 'Acero':
-      case 'Aluminio': {
-        const tFinal = Math.max(metalPlating(k2, pressure), minSideTransomThickness() as number)
-        return { tFinal }
-      }
-      case 'Madera (laminada y plywood)': {
-        const tFinal = Math.max(woodPlating(k2, pressure), minSideTransomThickness() as number)
-        return { tFinal }
-      }
-      case 'Fibra con nucleo (Sandwich)': {
-        const adjustB = Math.min(b, 330 * LH)
-        const k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028)
-        const { smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure)
-        const { wos, wis, wMin } = minSideTransomThickness() as { wos: number, wis: number, wMin: number }
-        return { thickness, smInner, smOuter, secondI, wos, wis, wMin }
-      }
-      default:
-        return {} // Handle unknown materials
-    }
+    return calculatePlating(sideTransomPressure, ar, Math.min(b, 330 * LH), material, minSideTransomThickness)
   }
 
   function calculateDeckPlating () {
     const ar = l / b
-    const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
-    const pressure = deckPressure
-
-    switch (material) {
-      case 'Fibra laminada': {
-        const tFinal = frpSingleSkinPlating(k2, pressure)
-        const tMin = minDeckThickness()
-        return { tFinal, tMin }
-      }
-      case 'Acero':
-      case 'Aluminio': {
-        const tFinal = Math.max(metalPlating(k2, pressure), minDeckThickness() as number)
-        return { tFinal }
-      }
-      case 'Madera (laminada y plywood)': {
-        const tFinal = Math.max(woodPlating(k2, pressure), minDeckThickness() as number)
-        return { tFinal }
-      }
-      case 'Fibra con nucleo (Sandwich)': {
-        const adjustB = Math.min(b, 330 * LH)
-        const k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028)
-        const { smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure)
-        const { wos, wis, tMin } = minDeckThickness() as { wos: number, wis: number, tMin: number }
-        return { thickness, smInner, smOuter, secondI, wos, wis, tMin }
-      }
-      default:
-        return {} // Handle unknown materials
-    }
+    return calculatePlating(deckPressure, ar, Math.min(b, 330 * LH), material, minDeckThickness)
   }
 
   // function calculateSuperstructuresDeckhousesPlating () {
@@ -323,121 +238,77 @@ export const usePlating = () => {
 
   function calculateWatertightBulkheadsPlating () {
     const ar = l / b
-    const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
-    const pressure = watertightBulkheadsPressure
-
-    switch (material) {
-      case 'Fibra laminada': {
-        const tFinal = frpSingleSkinPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Acero':
-      case 'Aluminio': {
-        const tFinal = metalPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Madera (laminada y plywood)': {
-        const tFinal = woodPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Fibra con nucleo (Sandwich)': {
-        const adjustB = Math.min(b, 330 * LH)
-        const k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028)
-        const { smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure)
-        return { thickness, smInner, smOuter, secondI }
-      }
-      default:
-        return {} // Handle unknown materials
-    }
+    return calculatePlating(watertightBulkheadsPressure, ar, Math.min(b, 330 * LH), material)
   }
 
   function calculateIntegralTankBulkheadsPlating () {
     const ar = l / b
-    const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
-    const pressure = integralTankBulkheadsPressure
-
-    switch (material) {
-      case 'Fibra laminada': {
-        const tFinal = frpSingleSkinPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Acero':
-      case 'Aluminio': {
-        const tFinal = metalPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Madera (laminada y plywood)': {
-        const tFinal = woodPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Fibra con nucleo (Sandwich)': {
-        const adjustB = Math.min(b, 330 * LH)
-        const k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028)
-        const { smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure)
-        return { thickness, smInner, smOuter, secondI }
-      }
-      default:
-        return {} // Handle unknown materials
-    }
+    return calculatePlating(integralTankBulkheadsPressure, ar, Math.min(b, 330 * LH), material)
   }
 
   function calculateWashPlatesPlating () {
     const ar = l / b
-    const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
-    const pressure = washPlatesPressure
-
-    switch (material) {
-      case 'Fibra laminada': {
-        const tFinal = frpSingleSkinPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Acero':
-      case 'Aluminio': {
-        const tFinal = metalPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Madera (laminada y plywood)': {
-        const tFinal = woodPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Fibra con nucleo (Sandwich)': {
-        const adjustB = Math.min(b, 330 * LH)
-        const k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028)
-        const { smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure)
-        return { thickness, smInner, smOuter, secondI }
-      }
-      default:
-        return {} // Handle unknown materials
-    }
+    return calculatePlating(washPlatesPressure, ar, Math.min(b, 330 * LH), material)
   }
 
   function calculateCollisionBulkheadsPlating () {
     const ar = l / b
+    return calculatePlating(collisionBulkheadsPressure, ar, Math.min(b, 330 * LH), material)
+  }
+
+  function calculatePlating (
+    pressure: number,
+    ar: number,
+    adjustB: number,
+    material: string,
+    minThicknessFunc?: () => number | { wos: number, wis: number, wMin: number }
+  ): PlatingResult {
     const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
-    const pressure = collisionBulkheadsPressure
+    let type: PlatingType
+    let tFinal: number = 0
+    let wMin: number = 0
+    let k3: number
+    let smInner: number = 0
+    let smOuter: number = 0
+    let secondI: number = 0
+    let thickness: number = 0
+
+    if (minThicknessFunc !== undefined) {
+      const wMinResult = minThicknessFunc()
+      if (typeof wMinResult === 'number') {
+        wMin = wMinResult
+      } else {
+        wMin = wMinResult.wMin
+      }
+    }
 
     switch (material) {
-      case 'Fibra laminada': {
-        const tFinal = frpSingleSkinPlating(k2, pressure)
-        return { tFinal }
-      }
+      case 'Fibra laminada':
+        tFinal = frpSingleSkinPlating(k2, pressure)
+        type = 'SingleSkin'
+        break
       case 'Acero':
-      case 'Aluminio': {
-        const tFinal = metalPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Madera (laminada y plywood)': {
-        const tFinal = woodPlating(k2, pressure)
-        return { tFinal }
-      }
-      case 'Fibra con nucleo (Sandwich)': {
-        const adjustB = Math.min(b, 330 * LH)
-        const k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028)
-        const { smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure)
-        return { thickness, smInner, smOuter, secondI }
-      }
+      case 'Aluminio':
+        tFinal = Math.max(metalPlating(k2, pressure), wMin)
+        type = 'Metal'
+        break
+      case 'Madera (laminada y plywood)':
+        tFinal = Math.max(woodPlating(k2, pressure), wMin)
+        type = 'Wood'
+        break
+      case 'Fibra con nucleo (Sandwich)':
+        k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028);
+        ({ smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure))
+        type = 'FrpSandwich'
+        break
       default:
-        return {} // Handle unknown materials
+        return {}
+    }
+
+    if (type === 'FrpSandwich') {
+      return { thickness, smInner, smOuter, secondI, wMin, type }
+    } else {
+      return { tFinal, wMin, type }
     }
   }
 

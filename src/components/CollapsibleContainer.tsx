@@ -20,7 +20,7 @@ export const CollapsibleRow = ({ title, children, isOpen }: { title: string, chi
   }
 
   return (
-    <div className="">
+    <div className={`${isOpen ? '' : 'hidden'}`}>
       {
         title.length !== 0 && <button className="w-full text-left p-2 font-bold" onClick={toggleCollapse}>{title}</button>
       }

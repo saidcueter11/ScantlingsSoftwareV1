@@ -2,7 +2,7 @@ import { useScantlingsContext } from '../../Context/ScantlingsContext'
 import { Input } from '../Input'
 import { Label } from '../Label'
 
-export const GeneralZoneForm = () => {
+export const PlatingForm = () => {
   const { b, setB, l, setL, LH, x, setX, LWL, c, setC, zone, material, z, setZ, context, hp, setHp, hs, setHs } = useScantlingsContext()
   return (
     <>

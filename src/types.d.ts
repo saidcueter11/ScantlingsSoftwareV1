@@ -40,3 +40,5 @@ export interface FrpSandwichPlating {
     wMin: number
   }
 }
+
+type PlatingResult = SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating

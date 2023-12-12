@@ -7,6 +7,7 @@ import { useScantlingsContext } from '../Context/ScantlingsContext'
 import { useNavigate } from 'react-router-dom'
 import { CollapsibleRow } from '../components/CollapsibleContainer'
 import { FormContainer } from '../components/FormContainer'
+import { PrimaryButton } from '../components/PrimaryButton'
 
 export const GeneralPage = () => {
   const {
@@ -39,7 +40,8 @@ export const GeneralPage = () => {
 
   const navigate = useNavigate()
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenSingleSkin, setIsOpenSingleSkin] = useState(false)
+  const [isOpenSandwich, setIsOpenSandwich] = useState(false)
 
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -49,8 +51,16 @@ export const GeneralPage = () => {
   }
 
   useEffect(() => {
-    if (material === 'Fibra laminada' || material === 'Fibra con nucleo (Sandwich)') setIsOpen(true)
-    else setIsOpen(false)
+    if (material === 'Fibra laminada') {
+      setIsOpenSandwich(false)
+      setIsOpenSingleSkin(true)
+    } else if (material === 'Fibra con nucleo (Sandwich)') {
+      setIsOpenSingleSkin(false)
+      setIsOpenSandwich(true)
+    } else {
+      setIsOpenSingleSkin(false)
+      setIsOpenSandwich(false)
+    }
   }, [material])
 
   return (
@@ -83,28 +93,24 @@ export const GeneralPage = () => {
         <Label question="Seleccione el material para el escantillonado de su embarcación" htmlFor='material'/>
         <Select array={PLATING_MATERIALS} setter={setMaterial}/>
 
-        <CollapsibleRow title='' isOpen={isOpen}>
-          {
-            material === 'Fibra laminada' &&
-              <>
-                <Label question="Seleccione el tipo de fibra de diseño" htmlFor='skin'/>
-                <Select array={SKIN_TYPE} setter={setSkin}/>
-              </>
-          }
+        <CollapsibleRow title='' isOpen={isOpenSingleSkin}>
 
-          {
-            material === 'Fibra con nucleo (Sandwich)' &&
-              <>
-                <Label question="Seleccione el tipo de fibra de diseño de la fibra *exterior*" htmlFor='skinExterior'/>
-                <Select array={SKIN_TYPE} setter={setSkinExterior}/>
+          <Label question="Seleccione el tipo de fibra de diseño" htmlFor='skin'/>
+          <Select array={SKIN_TYPE} setter={setSkin}/>
 
-                <Label question="Seleccione el tipo de fibra de diseño de la fibra *interior*" htmlFor='skinInterior'/>
-                <Select array={SKIN_TYPE} setter={setSkinInterior}/>
+        </CollapsibleRow>
 
-                <Label question="Seleccione el tipo de nucleo del sandwich" htmlFor='core'/>
-                <Select array={CORE_MATERIALS} setter={setCore}/>
-              </>
-          }
+        <CollapsibleRow title='' isOpen={isOpenSandwich}>
+
+            <Label question="Seleccione el tipo de fibra de diseño de la fibra *exterior*" htmlFor='skinExterior'/>
+            <Select array={SKIN_TYPE} setter={setSkinExterior}/>
+
+            <Label question="Seleccione el tipo de fibra de diseño de la fibra *interior*" htmlFor='skinInterior'/>
+            <Select array={SKIN_TYPE} setter={setSkinInterior}/>
+
+            <Label question="Seleccione el tipo de nucleo del sandwich" htmlFor='core'/>
+            <Select array={CORE_MATERIALS} setter={setCore}/>
+
         </CollapsibleRow>
 
         <Label question="Seleccione la zona donde desea realizar los calculos" htmlFor='zona'/>
@@ -113,7 +119,9 @@ export const GeneralPage = () => {
         <Label question='Seleccione el tipo escantillonado a calcular' htmlFor='context'/>
         <Select array={CONTEXT} setter={setContext}/>
 
-        <button className={'bg-slate-600 rounded-lg p-3 mt-5 text-slate-50 transition-opacity col-span-2 w-44 justify-self-center hover:opacity-75'}>Siguiente</button>
+        <div>
+          <PrimaryButton text='Siguiente'/>
+        </div>
       </FormContainer>
     </>
   )

@@ -1,0 +1,1 @@
+export const PrimaryButton = ({ text, handleClick }: { text: string, handleClick?: () => void }) => <button onClick={handleClick} className={'bg-[#98bb30] font-bold tracking-wider rounded-lg p-3 mt-5 text-slate-50 transition-opacity col-span-2 w-44 justify-self-center hover:opacity-75'}>{text}</button>

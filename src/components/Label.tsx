@@ -1,6 +1,6 @@
 export const Label = ({ question, htmlFor }: { question: string, htmlFor: string }) => {
   return (
-    <label className='' htmlFor={htmlFor}>
+    <label className='break-words' htmlFor={htmlFor}>
       {question}
     </label>
   )

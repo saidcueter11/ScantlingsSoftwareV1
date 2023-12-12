@@ -1,10 +1,11 @@
 import { type SyntheticEvent } from 'react'
 import { useScantlingsContext } from '../Context/ScantlingsContext'
 import { FormContainer } from '../components/FormContainer'
-import { GoBackArrow } from '../components/GoBackArrow'
 import { ZoneFormContainer } from '../components/zoneForms/ZoneFormContainer'
-import { GeneralZoneForm } from '../components/zoneForms/GeneralZoneForm'
+import { PlatingForm } from '../components/zoneForms/PlatingForm'
 import { useNavigate } from 'react-router-dom'
+import { StiffenersForm } from '../components/zoneForms/StiffenersForm'
+import { PrimaryButton } from '../components/PrimaryButton'
 
 export const ZonePage = () => {
   const { material, zone, context } = useScantlingsContext()
@@ -14,22 +15,44 @@ export const ZonePage = () => {
     navigate('results')
   }
 
+  const goBack = () => { history.back() }
   return (
-    <FormContainer handleSubmit={handleSubmit}>
-      <GoBackArrow />
-      <section className='flex-col flex items-center text-center'>
-        <p>El material seleccionado es: <span className='font-bold italic'>{material}</span></p>
-        <p>La zona seleccionada es: <span className='font-bold italic'>{zone}</span></p>
-        <p>El tipo de escantillonado es: <span className='font-bold italic'>{context}</span></p>
+    <>
+      <section className='flex flex-col justify-between text-center gap-2 max-w-xs sm:max-w-xl lg:max-w-4xl mt-5'>
+        <div className=''>
+          <p className='font-semibold tracking-wider text-[#9ac400]'>ESCATONILLADO</p>
+          <p className='italic font-medium'>{context}</p>
+        </div>
+        <div className='flex justify-evenly'>
+          <div className='w-28'>
+            <p className='font-semibold tracking-wider text-[#5c7f63]'>MATERIAL</p>
+            <p className='italic font-medium'>{material}</p>
+          </div>
+          <div className='w-28'>
+            <p className='font-semibold tracking-wider text-[#5c7f63]'>ZONA</p>
+            <p className='italic font-medium'>{zone}</p>
+          </div>
+        </div>
       </section>
+      <FormContainer handleSubmit={handleSubmit}>
 
-      <GeneralZoneForm />
+        {
+          context === 'Plating' && <PlatingForm />
+        }
 
-      <ZoneFormContainer />
+        {
+          context === 'Stiffeners' && <StiffenersForm/>
+        }
 
-      <button className={'bg-slate-600 rounded-lg p-3 mt-5 text-slate-50 transition-opacity col-span-2 w-44 justify-self-center hover:opacity-75'}>Siguiente</button>
+        <ZoneFormContainer />
 
-    </FormContainer>
+        <div className='flex gap-4'>
+          <PrimaryButton handleClick={goBack} text='Ir Atras'/>
+          <PrimaryButton text='Siguiente'/>
+        </div>
+
+      </FormContainer>
+    </>
 
   )
 }
