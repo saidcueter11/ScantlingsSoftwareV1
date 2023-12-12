@@ -20,6 +20,12 @@ export const GeneralPage = () => {
     B04,
     zone,
     material,
+    category,
+    skin,
+    skinExterior,
+    skinInterior,
+    context,
+    core,
     setSkinExterior,
     setSkinInterior,
     setCore,
@@ -88,36 +94,36 @@ export const GeneralPage = () => {
         <Input min={0} value={B04} setter={setB04} name='B04'/>
 
         <Label question="Seleccione la categoria para el diseño de su embarcación:" htmlFor='categoria'/>
-        <Select array={CATEGORIA_EMBARCACION} setterCategory={setCategory}/>
+        <Select array={CATEGORIA_EMBARCACION} setterCategory={setCategory} selectedValue={category}/>
 
         <Label question="Seleccione el material para el escantillonado de su embarcación" htmlFor='material'/>
-        <Select array={PLATING_MATERIALS} setter={setMaterial}/>
+        <Select array={PLATING_MATERIALS} setter={setMaterial} selectedValue={material}/>
 
         <CollapsibleRow title='' isOpen={isOpenSingleSkin}>
 
           <Label question="Seleccione el tipo de fibra de diseño" htmlFor='skin'/>
-          <Select array={SKIN_TYPE} setter={setSkin}/>
+          <Select array={SKIN_TYPE} setter={setSkin} selectedValue={skin}/>
 
         </CollapsibleRow>
 
         <CollapsibleRow title='' isOpen={isOpenSandwich}>
 
             <Label question="Seleccione el tipo de fibra de diseño de la fibra *exterior*" htmlFor='skinExterior'/>
-            <Select array={SKIN_TYPE} setter={setSkinExterior}/>
+            <Select array={SKIN_TYPE} setter={setSkinExterior} selectedValue={skinExterior}/>
 
             <Label question="Seleccione el tipo de fibra de diseño de la fibra *interior*" htmlFor='skinInterior'/>
-            <Select array={SKIN_TYPE} setter={setSkinInterior}/>
+            <Select array={SKIN_TYPE} setter={setSkinInterior} selectedValue={skinInterior}/>
 
             <Label question="Seleccione el tipo de nucleo del sandwich" htmlFor='core'/>
-            <Select array={CORE_MATERIALS} setter={setCore}/>
+            <Select array={CORE_MATERIALS} setter={setCore} selectedValue={core}/>
 
         </CollapsibleRow>
 
         <Label question="Seleccione la zona donde desea realizar los calculos" htmlFor='zona'/>
-        <Select array={ZONES} setter={setZone}/>
+        <Select array={ZONES} setter={setZone} selectedValue={zone}/>
 
         <Label question='Seleccione el tipo escantillonado a calcular' htmlFor='context'/>
-        <Select array={CONTEXT} setter={setContext}/>
+        <Select array={CONTEXT} setter={setContext} selectedValue={context}/>
 
         <div>
           <PrimaryButton text='Siguiente'/>
