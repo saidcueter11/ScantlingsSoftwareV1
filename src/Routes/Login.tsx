@@ -19,7 +19,7 @@ const Login: React.FC = () => {
         // Successful authentication
         console.log('Username:', username)
         console.log('Password:', password)
-        navigate('/')
+        navigate('/general')
       }
     } else {
       setErrorMessage('Correo invalido, el dominio debe ser "@cotecmar.com".')

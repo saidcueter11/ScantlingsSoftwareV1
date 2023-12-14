@@ -1,28 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Route, Outlet, Navigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import './index.css'
 import { ScantlingsContextProvider } from './Context/ScantlingsContext.tsx'
 import Login from './Routes/Login.tsx'
 import { GeneralPage } from './Routes/General.tsx'
 import { ZonePage } from './Routes/Zone.tsx'
 import { Results } from './Routes/Results.tsx'
+import { Root } from './Routes/Root.tsx'
 
 const isAuthenticated = true // Replace with your authentication logic
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/general',
     element: isAuthenticated
       ? (
-      <Outlet />
+      <Root />
         )
       : (
-      <Navigate to="/login" />
+      <Navigate to="/" />
         ),
     children: [
       {
-        path: '/',
+        path: '/general',
         element: <GeneralPage />
       },
       {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: '/login',
+    path: '/',
     element: <Login />
   }
 ])

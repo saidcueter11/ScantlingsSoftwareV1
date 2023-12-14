@@ -57,7 +57,7 @@ export const ZonePage = () => {
           </FormContainer>
         </div>
 
-        <figure className='col-span-1'>
+        <figure className='col-span-1 flex flex-col gap-6'>
           <img className='h-60' src="/MER-4296-117-01-CUADERNA-MAESTRA-Model (1).png" alt="" />
           <img className='h-60' src="/MER-4296-130-01A-ESTRUCTURA-GENERAL-Model (1).png" alt="" />
         </figure>

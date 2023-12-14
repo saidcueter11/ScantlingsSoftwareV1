@@ -56,19 +56,29 @@ export const Results = () => {
 
   const navigate = useNavigate()
 
+  const {
+    bottomPlating,
+    sideTransomPlating,
+    deckPlating,
+    watertightBulkheadsPlating,
+    integralTankBulkheadsPlating,
+    washPlatesPlating,
+    collisionBulkheadsPlating
+  } = usePlating()
+
   const { designCategoryKDC, dynamicLoadNCG, longitudinalPressureDistributionKL, hullSidePressureReductionKZ, areaPressureReductionKAR } = usePressures()
 
   const goBack = () => { history.back() }
   const [exportingDataPressure, setExportingDataPressure] = useState<PressureData[]>([])
   const [exportingDataPlating, setExportingDataPlating] = useState<PlatingData[]>([])
   const [exportingDataStiffeners, setExportingDataStiffeners] = useState<StiffenerData[]>([])
-  const [currentPlating] = useState<PlatingResult>({})
-  const [currentStiffener] = useState<StiffenerResult>({})
+  const [currentPlating] = useState<PlatingResult>(bottomPlating)
+  const [currentStiffener] = useState<StiffenerResult>(bottomStiffener)
   const [currentPressure] = useState(0)
 
   const handleReset = () => {
     resetStates()
-    navigate('/')
+    navigate('/general')
   }
 
   useEffect(() => {
@@ -113,16 +123,6 @@ export const Results = () => {
     setExportingDataStiffeners(prev => [...prev, newStiffenerData])
     setExportingDataPlating(prev => [...prev, newPlatingData])
   }, [zone])
-
-  const {
-    bottomPlating,
-    sideTransomPlating,
-    deckPlating,
-    watertightBulkheadsPlating,
-    integralTankBulkheadsPlating,
-    washPlatesPlating,
-    collisionBulkheadsPlating
-  } = usePlating()
 
   const GeneralData = [
     { 'Datos Generales y Dimensiones de la Embarcación': 'Tipo de análisis', Valor: 'Escantillonado' },
