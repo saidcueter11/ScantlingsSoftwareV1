@@ -58,8 +58,8 @@ export const ZonePage = () => {
         </div>
 
         <figure className='col-span-1'>
-          <img className='h-60' src="/public/MER-4296-117-01-CUADERNA-MAESTRA-Model (1).png" alt="" />
-          <img className='h-60' src="/public/MER-4296-130-01A-ESTRUCTURA-GENERAL-Model (1).png" alt="" />
+          <img className='h-60' src="/MER-4296-117-01-CUADERNA-MAESTRA-Model (1).png" alt="" />
+          <img className='h-60' src="/MER-4296-130-01A-ESTRUCTURA-GENERAL-Model (1).png" alt="" />
         </figure>
       </section>
 
