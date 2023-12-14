@@ -14,6 +14,7 @@ export interface ScantlingsContextType {
   sigmaUt: number
   sigmaUc: number
   tauU: number
+  tau: number
   tauNu: number
   eio: number
   ei: number
@@ -76,6 +77,7 @@ export interface ScantlingsContextType {
   setSigmaUt: (value: number) => void
   setSigmaUc: (value: number) => void
   setTauU: (value: number) => void
+  setTau: (value: number) => void
   setTauNu: (value: number) => void
   setEio: (value: number) => void
   setEi: (value: number) => void
@@ -115,6 +117,7 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
   const [sigmaUt, setSigmaUt] = useState(0)
   const [sigmaUc, setSigmaUc] = useState(0)
   const [tauU, setTauU] = useState(0)
+  const [tau, setTau] = useState(0)
   const [tauNu, setTauNu] = useState(0)
   const [eio, setEio] = useState(0)
   const [ei, setEi] = useState(0)
@@ -224,6 +227,7 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
     sigmaUt,
     sigmaUc,
     tauU,
+    tau,
     tauNu,
     eio,
     ei,
@@ -279,6 +283,7 @@ export function ScantlingsContextProvider ({ children }: MyContextProviderProps)
     setSigmaUt,
     setSigmaUc,
     setTauU,
+    setTau,
     setTauNu,
     setEio,
     setEi,

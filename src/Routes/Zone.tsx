@@ -34,24 +34,35 @@ export const ZonePage = () => {
           </div>
         </div>
       </section>
-      <FormContainer handleSubmit={handleSubmit}>
 
-        {
-          context === 'Plating' && <PlatingForm />
-        }
+      <section className='grid grid-cols-3 items-center justify-between'>
+        <div className='col-span-2'>
+          <FormContainer handleSubmit={handleSubmit}>
 
-        {
-          context === 'Stiffeners' && <StiffenersForm/>
-        }
+            {
+              context === 'Plating' && <PlatingForm />
+            }
 
-        <ZoneFormContainer />
+            {
+              context === 'Stiffeners' && <StiffenersForm />
+            }
 
-        <div className='flex gap-4'>
-          <PrimaryButton handleClick={goBack} text='Ir Atras'/>
-          <PrimaryButton text='Siguiente'/>
+            <ZoneFormContainer />
+
+            <div className='flex gap-4'>
+              <PrimaryButton handleClick={goBack} text='Ir Atras'/>
+              <PrimaryButton text='Siguiente'/>
+            </div>
+
+          </FormContainer>
         </div>
 
-      </FormContainer>
+        <figure className='col-span-1'>
+          <img className='h-60' src="/public/MER-4296-117-01-CUADERNA-MAESTRA-Model (1).png" alt="" />
+          <img className='h-60' src="/public/MER-4296-130-01A-ESTRUCTURA-GENERAL-Model (1).png" alt="" />
+        </figure>
+      </section>
+
     </>
 
   )

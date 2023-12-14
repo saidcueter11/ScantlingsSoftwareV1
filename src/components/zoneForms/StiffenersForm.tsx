@@ -3,7 +3,7 @@ import { Input } from '../Input'
 import { Label } from '../Label'
 
 export const StiffenersForm = () => {
-  const { s, lu, setLu, cu, setCu, x, setX, setS, LWL, material, tauU, setTauU, sigmaCt, setSigmaCt, etc, setEtc, sigmaY, setSigmaY, sigmaUf, setSigmaUf } = useScantlingsContext()
+  const { s, lu, setLu, cu, setCu, x, setX, setS, LWL, material, tau, setTau, sigmaCt, setSigmaCt, etc, setEtc, sigmaY, setSigmaY, sigmaUf, setSigmaUf } = useScantlingsContext()
   return (
     <>
       <Label question="Ingrese la separación entre refuerzos 's' (mm): " htmlFor="s"/>
@@ -26,7 +26,7 @@ export const StiffenersForm = () => {
             <Input min={0} name="etc" setter={setEtc} key={'etc'} value={etc}/>
 
             <Label question={`Ingrese la resistencia última mínima al cortante de la ${material} para el refuerzo: `} htmlFor="tau"/>
-            <Input min={0} name="tau" setter={setTauU} key={'tau'} value={tauU}/>
+            <Input min={0} name="tau" setter={setTau} key={'tau'} value={tau}/>
 
             <Label question={`Ingrese esfuerzo último (compresión o tracción) de la ${material} según el tipo de carga presente en el refuerzo: `} htmlFor="sigmaCt"/>
             <Input min={0} name="sigmaCt" setter={setSigmaCt} key={'sigmaCt'} value={sigmaCt}/>
@@ -47,7 +47,7 @@ export const StiffenersForm = () => {
         material === 'Madera (laminada y plywood)' &&
           <>
             <Label question={`Ingrese la resistencia última mínima al cortante de la ${material} para el refuerzo: `} htmlFor="tau"/>
-            <Input min={0} name="tau" setter={setTauU} key={'tau'} value={tauU}/>
+            <Input min={0} name="tau" setter={setTau} key={'tau'} value={tau}/>
 
             <Label question={`Ingrese la esfuerzo último a la flexión de la ${material} para el refuerzo: `} htmlFor="sigmaUf"/>
             <Input min={0} name="sigmaUf" setter={setSigmaUf} key={'sigmaUf'} value={sigmaUf}/>

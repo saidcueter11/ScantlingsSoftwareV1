@@ -3,28 +3,28 @@ import { useScantlingsContext } from '../Context/ScantlingsContext'
 
 export const usePressures = () => {
   const { mLDC, LWL, BC, category, V, B04, context, material, z, l, s, lu, b, hB, x, hp, hs, height, base, areaPerforation } = useScantlingsContext()
+
   const [PBMDBASE, setPBMDBASE] = useState<number>(0)
   const [PBMPBASE, setPBMPBASE] = useState<number>(0)
   const [PBMMIN, setPBMMIN] = useState<number>(0)
   const [PSMMIN, setPSMMIN] = useState<number>(0)
   const [PDMBASE, setPDMBASE] = useState<number>(0)
-  // const PDMMIN = 5
+  const PDMMIN = 5
 
   const [bottomPressure, setBottomPressure] = useState<number>(0)
   const [sideTransomPressure, setSideTransomPressure] = useState<number>(0)
   const [deckPressure, setDeckPressure] = useState<number>(0)
-  // const [superstructuresDeckhousesPressure, setSuperstructuresDeckhousesPressure] = useState([])
+  const [superstructuresDeckhousesPressure, setSuperstructuresDeckhousesPressure] = useState(0)
   const [watertightBulkheadsPressure, setWatertightBulkheadsPressure] = useState<number>(0)
   const [integralTankBulkheadsPressure, setIntegralTankBulkheadsPressure] = useState<number>(0)
   const [washPlatesPressure, setWashPlatesPressure] = useState<number>(0)
   const [collisionBulkheadsPressure, setCollisionBulkheadsPressure] = useState<number>(0)
 
   useEffect(() => {
-    // Update each state with respective pressure calculation
     setBottomPressure(calculateBottomPressure())
     setSideTransomPressure(calculateSideTransomPressure())
     setDeckPressure(calculateDeckPressure())
-    // setSuperstructuresDeckhousesPressure(calculateSuperstructuresDeckhousesPressure())
+    setSuperstructuresDeckhousesPressure(calculateSuperstructuresDeckhousesPressure())
     setWatertightBulkheadsPressure(calculateWatertightBulkheadsPressure())
     setIntegralTankBulkheadsPressure(calculateIntegralTankBulkheadsPressure())
     setWashPlatesPressure(calculateWashPlatesPressure())
@@ -44,7 +44,6 @@ export const usePressures = () => {
 
     const newPDMBASE = 0.35 * LWL + 14.6
     setPDMBASE(newPDMBASE)
-    // ... update other pressures similarly
   }, [mLDC, LWL, BC, category, V, B04, context, material, z, l, s, lu, b, hB, x, hp, hs, height, base, areaPerforation])
 
   function designCategoryKDC () {
@@ -107,18 +106,6 @@ export const usePressures = () => {
     return 0
   }
 
-  function superstructureDeckhousePressureReductionKSUP () {
-    return {
-      Front: 1,
-      'Side (Walking Area)': 0.67,
-      'Side (Non Walking Area)': 0.5,
-      'Aft end': 0.5,
-      'Top <= 800 mm above deck': 0.5,
-      'Top > 800mm above deck': 0.35,
-      Upper_Tiers: 0
-    }
-  }
-
   function calculateBottomPressure (): number {
     const kAR = areaPressureReductionKAR()
     const kL = longitudinalPressureDistributionKL()
@@ -126,8 +113,6 @@ export const usePressures = () => {
 
     const PBMD = Math.max(PBMMIN, PBMDBASE * kAR * kDC * kL)
     const PBMP = Math.max(PBMMIN, PBMPBASE * kAR * kDC * kL)
-
-    console.log(Math.max(PBMD, PBMP))
 
     return Math.max(PBMD, PBMP)
   }
@@ -155,17 +140,16 @@ export const usePressures = () => {
     return PDM
   }
 
-  // function calculateSuperstructuresDeckhousesPressure () {
-  //   const kAR = areaPressureReductionKAR()
-  //   const kDC = designCategoryKDC()
-  //   const kSUPValues = superstructureDeckhousePressureReductionKSUP()
+  function calculateSuperstructuresDeckhousesPressure () {
+    const kAR = areaPressureReductionKAR()
+    const kDC = designCategoryKDC()
+    const kSUP = 1
 
-  //   return Object.entries(kSUPValues).map(([location, kSUP]) => (
-  //     {
-  //       location, pressure: Math.max(PDMBASE * kDC * kAR * kSUP, PDMMIN)
-  //     }
-  //   ))
-  // }
+    // Calculate and return a dictionary with the design pressures for each possible location
+    const PSUPM = Math.max(PDMBASE * kDC * kAR * kSUP, PDMMIN)
+
+    return PSUPM
+  }
 
   function calculateWatertightBulkheadsPressure (): number {
     return 7 * hB
@@ -199,11 +183,10 @@ export const usePressures = () => {
     longitudinalPressureDistributionKL,
     areaPressureReductionKAR,
     hullSidePressureReductionKZ,
-    superstructureDeckhousePressureReductionKSUP,
     bottomPressure,
     sideTransomPressure,
     deckPressure,
-    // superstructuresDeckhousesPressure,
+    superstructuresDeckhousesPressure,
     watertightBulkheadsPressure,
     integralTankBulkheadsPressure,
     washPlatesPressure,

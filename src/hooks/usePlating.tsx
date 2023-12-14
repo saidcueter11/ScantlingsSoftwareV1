@@ -9,12 +9,12 @@ export const usePlating = () => {
     material, V, mLDC, LWL, skin, l
   } = useScantlingsContext()
 
-  const { designCategoryKDC, bottomPressure, deckPressure, sideTransomPressure, washPlatesPressure, watertightBulkheadsPressure, integralTankBulkheadsPressure, collisionBulkheadsPressure } = usePressures()
+  const { designCategoryKDC, bottomPressure, deckPressure, sideTransomPressure, washPlatesPressure, watertightBulkheadsPressure, integralTankBulkheadsPressure, collisionBulkheadsPressure, superstructuresDeckhousesPressure } = usePressures()
 
-  const [bottomPlating, setBottomPlating] = useState<PlatingResult>({ type: 'FrpSandwich' })
+  const [bottomPlating, setBottomPlating] = useState<PlatingResult>({})
   const [sideTransomPlating, setSideTransomPlating] = useState<PlatingResult>({})
   const [deckPlating, setDeckPlating] = useState<PlatingResult>({})
-  // const [superstructuresDeckhousesPlating, setSuperstructuresDeckhousesPlating] = useState<PlatingResult>({})
+  const [superstructuresDeckhousesPlating, setSuperstructuresDeckhousesPlating] = useState<PlatingResult>({})
   const [watertightBulkheadsPlating, setWatertightBulkheadsPlating] = useState<PlatingResult>({})
   const [integralTankBulkheadsPlating, setIntegralTankBulkheadsPlating] = useState<PlatingResult>({})
   const [washPlatesPlating, setWashPlatesPlating] = useState<PlatingResult>({})
@@ -24,13 +24,13 @@ export const usePlating = () => {
     setBottomPlating(calculateBottomPlating())
     setSideTransomPlating(calculateSideTransomPlating())
     setDeckPlating(calculateDeckPlating())
-    // setSuperstructuresDeckhousesPlating(calculateSuperstructuresDeckhousesPlating())
+    setSuperstructuresDeckhousesPlating(calculateSuperstructuresDeckhousesPlating())
     setWashPlatesPlating(calculateWashPlatesPlating())
     setWatertightBulkheadsPlating(calculateWatertightBulkheadsPlating())
     setIntegralTankBulkheadsPlating(calculateIntegralTankBulkheadsPlating())
     setCollisionBulkheadsPlating(calculateCollisionBulkheadsPlating())
-  }, [b, c, sigmaUf, sigmaU, sigmaY, sigmaUt, sigmaUc, eio, skinExterior, skinInterior, core, tauU, LH,
-    material, V, mLDC, LWL, skin, l, bottomPressure, deckPressure, sideTransomPressure, washPlatesPressure, watertightBulkheadsPressure, integralTankBulkheadsPressure, collisionBulkheadsPressure])
+  }, [bottomPressure, deckPressure, sideTransomPressure, washPlatesPressure, watertightBulkheadsPressure, integralTankBulkheadsPressure, collisionBulkheadsPressure, superstructuresDeckhousesPressure, b, c, sigmaUf, sigmaU, sigmaY, sigmaUt, sigmaUc, eio, skinExterior, skinInterior, core, tauU, LH,
+    material, V, mLDC, LWL, skin, l])
 
   function curvatureCorrectionKC (): number {
     const cb = c / b
@@ -206,35 +206,10 @@ export const usePlating = () => {
     return calculatePlating(deckPressure, ar, Math.min(b, 330 * LH), material, minDeckThickness)
   }
 
-  // function calculateSuperstructuresDeckhousesPlating () {
-  //   const ar = l / b
-  //   const k2 = Math.min(Math.max((0.271 * Math.pow(ar, 2) + 0.910 * ar - 0.554) / (Math.pow(ar, 2) - 0.313 * ar + 1.351), 0.308), 0.5)
-  //   const pressure = pressures.superstructuresDeckhousesPressure
-
-  //   switch (material) {
-  //     case 'Fibra laminada': {
-  //       const tFinal = frpSingleSkinPlating(k2, pressure)
-  //       return { tFinal }
-  //     }
-  //     case 'Acero':
-  //     case 'Aluminio': {
-  //       const tFinal = metalPlating(k2, pressure)
-  //       return { tFinal }
-  //     }
-  //     case 'Madera (laminada y plywood)': {
-  //       const tFinal = woodPlating(k2, pressure)
-  //       return { tFinal }
-  //     }
-  //     case 'Fibra con nucleo (Sandwich)': {
-  //       const adjustB = Math.min(b, 330 * LH)
-  //       const k3 = Math.min(Math.max((0.027 * Math.pow(ar, 2) - 0.029 * ar + 0.011) / (Math.pow(ar, 2) - 1.463 * ar + 1.108), 0.014), 0.028)
-  //       const { smInner, smOuter, secondI, thickness } = frpSandwichPlating(ar, adjustB, k2, k3, pressure)
-  //       return { thickness, smInner, smOuter, secondI }
-  //     }
-  //     default:
-  //       return {} // Handle unknown materials
-  //   }
-  // }
+  function calculateSuperstructuresDeckhousesPlating () {
+    const ar = l / b
+    return calculatePlating(superstructuresDeckhousesPressure, ar, Math.min(b, 330 * LH), material)
+  }
 
   function calculateWatertightBulkheadsPlating () {
     const ar = l / b
@@ -316,10 +291,19 @@ export const usePlating = () => {
     bottomPlating,
     sideTransomPlating,
     deckPlating,
-    // superstructuresDeckhousesPlating,
+    superstructuresDeckhousesPlating,
     watertightBulkheadsPlating,
     integralTankBulkheadsPlating,
     washPlatesPlating,
-    collisionBulkheadsPlating
+    collisionBulkheadsPlating,
+    setBottomPlating,
+    setSideTransomPlating,
+    setDeckPlating,
+    setSuperstructuresDeckhousesPlating,
+    setWatertightBulkheadsPlating,
+    setIntegralTankBulkheadsPlating,
+    setWashPlatesPlating,
+    setCollisionBulkheadsPlating,
+    calculatePlating
   }
 }

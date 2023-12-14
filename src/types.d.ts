@@ -41,4 +41,38 @@ export interface FrpSandwichPlating {
   }
 }
 
+export type StiffenerType = 'SingleSkin' | 'Metal' | 'Wood' | 'FrpSandwich'
+
+export interface SingleSkinStiffener {
+  type?: 'SingleSkin'
+  AW?: number
+  SM?: number
+  I?: number
+}
+
+export interface MetalStiffener {
+  type?: 'Metal'
+  AW?: number
+  SM?: number
+}
+
+export interface WoodStiffener {
+  type?: 'Wood'
+  AW?: number
+  SM?: number
+}
+
+export interface FrpSandwichStiffener {
+  type?: 'FrpSandwich'
+  AW?: number
+  SM?: number
+  I?: number
+}
+
+export type StiffenerResult =
+  | SingleSkinStiffener
+  | MetalStiffener
+  | WoodStiffener
+  | FrpSandwichStiffener
+
 type PlatingResult = SingleSkinPlating | MetalPlating | WoodPlating | FrpSandwichPlating

@@ -72,61 +72,61 @@ export const GeneralPage = () => {
   return (
     <>
       <FormContainer handleSubmit={handleSubmit}>
-        <Label question="Ingrese la eslora maxima 'LH' de su embarcación (metros):" htmlFor='LH'/>
+        <Label question='Eslora del casco "LH" (metros): ' htmlFor='LH'/>
         <Input min={2.5} max={24} value={LH} setter={setLH} name='LH'/>
 
-        <Label question="Ingrese la eslora de la linea de flotación o eslora de escantillón 'LWL' (metros):" htmlFor='LWL'/>
+        <Label question='Eslora en linea de flotación "LWL" (metros): 'htmlFor='LWL'/>
         <Input min={2.5} max={LH} value={LWL} setter={setLWL} name='LWL'/>
 
-        <Label question="Ingrese la manga de la linea de flotación 'BWL' (metros): " htmlFor='BWL'/>
+        <Label question='Manga en linea de flotación "BWL" (metros): ' htmlFor='BWL'/>
         <Input min={0} value={BWL} setter={setBWL} name='BWL'/>
 
-        <Label question="Ingrese la manga del lomo o 'chine' 'BC' (metros): " htmlFor='BC'/>
+        <Label question='Manga entre pantoques o "chine" "BC" (metros): ' htmlFor='BC'/>
         <Input min={0} value={BC} setter={setBC} name='BC'/>
 
-        <Label question="Ingrese la velocidad maxima de diseño 'V' de la embarcación (Nudos): " htmlFor='V'/>
+        <Label question='Velocidad maxima "V" (Nudos): ' htmlFor='V'/>
         <Input min={2.36 * Math.sqrt(LWL)} value={V} setter={setV} name='V'/>
 
-        <Label question="Ingrese el desplazamiento de la embarcación 'mLDC' (Toneladas): " htmlFor='mLDC'/>
+        <Label question='Desplazamiento "mLDC" (Toneladas): ' htmlFor='mLDC'/>
         <Input min={0} value={mLDC} setter={setmLDC} name='mLDC'/>
 
-        <Label question={`Ingrese el ángulo de astilla muerta 'B04' en el LCG, o a ${0.4 * LWL >= 0 ? (0.4 * LWL).toFixed(3) : 0} metros de la popa (°grados):`} htmlFor='B04'/>
+        <Label question={`Ángulo de astilla muerta "B04" en el LCG, o a ${0.4 * LWL >= 0 ? (0.4 * LWL).toFixed(3) : 0} metros de la popa (°grados):`} htmlFor='B04'/>
         <Input min={0} value={B04} setter={setB04} name='B04'/>
 
-        <Label question="Seleccione la categoria para el diseño de su embarcación:" htmlFor='categoria'/>
+        <Label question='Categoria de diseño:' htmlFor='categoria'/>
         <Select array={CATEGORIA_EMBARCACION} setterCategory={setCategory} selectedValue={category}/>
 
-        <Label question="Seleccione el material para el escantillonado de su embarcación" htmlFor='material'/>
+        <Label question='Material general de la embarcación' htmlFor='material'/>
         <Select array={PLATING_MATERIALS} setter={setMaterial} selectedValue={material}/>
 
         <CollapsibleRow title='' isOpen={isOpenSingleSkin}>
 
-          <Label question="Seleccione el tipo de fibra de diseño" htmlFor='skin'/>
+          <Label question='Tipo de fibra de diseño' htmlFor='skin'/>
           <Select array={SKIN_TYPE} setter={setSkin} selectedValue={skin}/>
 
         </CollapsibleRow>
 
         <CollapsibleRow title='' isOpen={isOpenSandwich}>
 
-            <Label question="Seleccione el tipo de fibra de diseño de la fibra *exterior*" htmlFor='skinExterior'/>
+            <Label question='Tipo de fibra exterior' htmlFor='skinExterior'/>
             <Select array={SKIN_TYPE} setter={setSkinExterior} selectedValue={skinExterior}/>
 
-            <Label question="Seleccione el tipo de fibra de diseño de la fibra *interior*" htmlFor='skinInterior'/>
+            <Label question='Tipo de fibra interior' htmlFor='skinInterior'/>
             <Select array={SKIN_TYPE} setter={setSkinInterior} selectedValue={skinInterior}/>
 
-            <Label question="Seleccione el tipo de nucleo del sandwich" htmlFor='core'/>
+            <Label question='Tipo de nucleo del sandwich' htmlFor='core'/>
             <Select array={CORE_MATERIALS} setter={setCore} selectedValue={core}/>
 
         </CollapsibleRow>
 
-        <Label question="Seleccione la zona donde desea realizar los calculos" htmlFor='zona'/>
+        <Label question='Zona de escantillonado' htmlFor='zona'/>
         <Select array={ZONES} setter={setZone} selectedValue={zone}/>
 
-        <Label question='Seleccione el tipo escantillonado a calcular' htmlFor='context'/>
+        <Label question='Tipo de analisis' htmlFor='context'/>
         <Select array={CONTEXT} setter={setContext} selectedValue={context}/>
 
         <div>
-          <PrimaryButton text='Siguiente'/>
+          <PrimaryButton text='Aceptar'/>
         </div>
       </FormContainer>
     </>
