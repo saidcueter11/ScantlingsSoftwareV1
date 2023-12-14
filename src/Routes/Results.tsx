@@ -6,6 +6,7 @@ import { type StiffenerResult, type PlatingResult } from '../types'
 import { exportToExcel } from '../utils/exportToExcel'
 import { useStiffener } from '../hooks/useStiffeners'
 import { usePressures } from '../hooks/usePressures'
+import { useNavigate } from 'react-router-dom'
 
 interface PressureData {
   Zona: string
@@ -41,7 +42,7 @@ interface StiffenerData {
 }
 
 export const Results = () => {
-  const { zone, context, material, category, LH, LWL, BC, BWL, mLDC, V, B04, skinExterior, skinInterior } = useScantlingsContext()
+  const { zone, context, material, category, LH, LWL, BC, BWL, mLDC, V, B04, skinExterior, skinInterior, resetStates } = useScantlingsContext()
 
   const {
     bottomStiffener,
@@ -53,6 +54,8 @@ export const Results = () => {
     collisionBulkheadsStiffener
   } = useStiffener()
 
+  const navigate = useNavigate()
+
   const { designCategoryKDC, dynamicLoadNCG, longitudinalPressureDistributionKL, hullSidePressureReductionKZ, areaPressureReductionKAR } = usePressures()
 
   const goBack = () => { history.back() }
@@ -62,6 +65,11 @@ export const Results = () => {
   const [currentPlating] = useState<PlatingResult>({})
   const [currentStiffener] = useState<StiffenerResult>({})
   const [currentPressure] = useState(0)
+
+  const handleReset = () => {
+    resetStates()
+    navigate('/')
+  }
 
   useEffect(() => {
     const newDataPressure: PressureData = {
@@ -261,14 +269,14 @@ export const Results = () => {
   }
 
   return (
-    <section className='lg:grid lg:grid-cols-2 min-h-full max-w-xs sm:max-w-xl lg:max-w-4xl xl:max-w-none mt-5'>
+    <section className='lg:grid min-h-full max-w-xs sm:max-w-xl lg:max-w-4xl xl:max-w-none mt-5'>
       <h2 className='font-semibold tracking-wider text-lg text-center text-[#5c7f63]'>RESULTADOS</h2>
       <div className='text-center'>
         {renderZoneResults()}
       </div>
 
       <div className='flex gap-4'>
-        <PrimaryButton text='Nuevo Calculo'/>
+        <PrimaryButton text='Nuevo Calculo' handleClick={handleReset}/>
         <PrimaryButton text='Agregar Zona'/>
       </div>
 
