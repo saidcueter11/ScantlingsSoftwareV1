@@ -35,8 +35,8 @@ export const ZonePage = () => {
         </div>
       </section>
 
-      <section className='grid grid-cols-3 items-center justify-between'>
-        <div className='col-span-2'>
+      <section className='grid lg:grid-cols-3 items-center lg:justify-between justify-center'>
+        <div className='lg:col-span-2 flex-col flex justify-center items-center'>
           <FormContainer handleSubmit={handleSubmit}>
 
             {
@@ -57,7 +57,7 @@ export const ZonePage = () => {
           </FormContainer>
         </div>
 
-        <figure className='col-span-1 flex flex-col gap-6'>
+        <figure className='lg:col-span-1 flex flex-col gap-6'>
           <img className='h-60' src="/MER-4296-117-01-CUADERNA-MAESTRA-Model (1).png" alt="" />
           <img className='h-60' src="/MER-4296-130-01A-ESTRUCTURA-GENERAL-Model (1).png" alt="" />
         </figure>

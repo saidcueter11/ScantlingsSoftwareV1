@@ -122,7 +122,7 @@ export const Results = () => {
     setExportingDataPressure(prev => [...prev, newDataPressure])
     setExportingDataStiffeners(prev => [...prev, newStiffenerData])
     setExportingDataPlating(prev => [...prev, newPlatingData])
-  }, [zone])
+  }, [zone, bottomPlating, bottomStiffener])
 
   const GeneralData = [
     { 'Datos Generales y Dimensiones de la Embarcación': 'Tipo de análisis', Valor: 'Escantillonado' },
