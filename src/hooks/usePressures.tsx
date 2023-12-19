@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useScantlingsContext } from '../Context/ScantlingsContext'
 
 export const usePressures = () => {
-  const { mLDC, LWL, BC, category, V, B04, context, material, z, l, s, lu, b, hB, x, hp, hs, height, base, areaPerforation } = useScantlingsContext()
+  const { mLDC, LWL, BC, category, V, B04, context, material, z, l, s, lu, b, hB, x, hp, hs, height, base, areaPerforation, skinExterior, skinInterior } = useScantlingsContext()
 
   const [PBMDBASE, setPBMDBASE] = useState<number>(0)
   const [PBMPBASE, setPBMPBASE] = useState<number>(0)
@@ -21,6 +21,29 @@ export const usePressures = () => {
   const [collisionBulkheadsPressure, setCollisionBulkheadsPressure] = useState<number>(0)
 
   useEffect(() => {
+    const newPBMDBASE = 2.4 * Math.pow(mLDC, 0.33) + 20
+    const newPBMPBASE = (0.1 * mLDC) / (LWL * BC) * ((1 + designCategoryKDC() ** 0.5) * dynamicLoadNCG())
+    const newPBMMIN = 0.45 * Math.pow(mLDC, 0.33) + (0.9 * LWL * designCategoryKDC())
+    const newPSMMIN = 0.9 * LWL * designCategoryKDC()
+    const newPDMBASE = 0.35 * LWL + 14.6
+
+    // Batch state updates only when necessary
+    if (newPBMDBASE !== PBMDBASE) {
+      setPBMDBASE(newPBMDBASE)
+    }
+    if (newPBMPBASE !== PBMPBASE) {
+      setPBMPBASE(newPBMPBASE)
+    }
+    if (newPBMMIN !== PBMMIN) {
+      setPBMMIN(newPBMMIN)
+    }
+    if (newPSMMIN !== PSMMIN) {
+      setPSMMIN(newPSMMIN)
+    }
+    if (newPDMBASE !== PDMBASE) {
+      setPDMBASE(newPDMBASE)
+    }
+
     setBottomPressure(calculateBottomPressure())
     setSideTransomPressure(calculateSideTransomPressure())
     setDeckPressure(calculateDeckPressure())
@@ -29,22 +52,7 @@ export const usePressures = () => {
     setIntegralTankBulkheadsPressure(calculateIntegralTankBulkheadsPressure())
     setWashPlatesPressure(calculateWashPlatesPressure())
     setCollisionBulkheadsPressure(calculateCollisionBulkheadsPressure())
-
-    const newPBMDBASE = 2.4 * Math.pow(mLDC, 0.33) + 20
-    setPBMDBASE(newPBMDBASE)
-
-    const newPBMPBASE = (0.1 * mLDC) / (LWL * BC) * ((1 + designCategoryKDC() ** 0.5) * dynamicLoadNCG())
-    setPBMPBASE(newPBMPBASE)
-
-    const newPBMMIN = 0.45 * Math.pow(mLDC, 0.33) + (0.9 * LWL * designCategoryKDC())
-    setPBMMIN(newPBMMIN)
-
-    const newPSMMIN = 0.9 * LWL * designCategoryKDC()
-    setPSMMIN(newPSMMIN)
-
-    const newPDMBASE = 0.35 * LWL + 14.6
-    setPDMBASE(newPDMBASE)
-  }, [mLDC, LWL, BC, category, V, B04, context, material, z, l, s, lu, b, hB, x, hp, hs, height, base, areaPerforation])
+  }, [mLDC, LWL, BC, category, V, B04, context, material, z, l, s, lu, b, hB, x, hp, hs, height, base, areaPerforation, skinExterior, skinInterior])
 
   function designCategoryKDC () {
     let kDC = 0
@@ -117,6 +125,7 @@ export const usePressures = () => {
     return Math.max(PBMD, PBMP)
   }
 
+  // Not working
   function calculateSideTransomPressure (): number {
     const kZ = hullSidePressureReductionKZ()
     const kAR = areaPressureReductionKAR()
@@ -151,6 +160,8 @@ export const usePressures = () => {
     return PSUPM
   }
 
+  // from here
+
   function calculateWatertightBulkheadsPressure (): number {
     return 7 * hB
   }
@@ -168,6 +179,8 @@ export const usePressures = () => {
   function calculateCollisionBulkheadsPressure (): number {
     return 10 * hB
   }
+
+  // to here it doesn't work
 
   function structuralBulkheadsPressure (): string {
     return 'Verificar norma ISO 12215-5, inciso 8.3.5 & 11.8'

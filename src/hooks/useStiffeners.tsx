@@ -98,9 +98,9 @@ export const useStiffener = () => {
     return kCS
   }, [])
 
-  const webAreaAW = useCallback((pressure: number, tauD: number): number => {
+  const webAreaAW = (pressure: number, tauD: number): number => {
     return ((kSA * pressure * s * lu) / tauD) * 1e-6
-  }, [])
+  }
 
   const minSectionModulusSM = (pressure: number, sigmaD: number): number => {
     const kCS = curvatureFactorForStiffenersKCS()
