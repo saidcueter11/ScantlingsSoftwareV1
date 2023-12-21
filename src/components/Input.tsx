@@ -11,7 +11,7 @@ interface InputProps {
 export const Input = ({ min, max, value, setter, name }: InputProps) => {
   const { handleChangeInput } = useScantlingsContext()
   return <input
-    className='border border-slate-400/80 rounded-lg px-3 py-0.5'
+    className='border border-[#9ac400]/60 rounded-lg px-3 py-0.5 justify-self-end'
     step='any'
     id={name}
     type='number'

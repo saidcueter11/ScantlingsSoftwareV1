@@ -11,7 +11,7 @@ export const Select = ({ array, setter, setterCategory, selectedValue }: SelectP
   const { handleChangeSelect, handleChangeSelectCategory } = useScantlingsContext()
   return (
     <select
-      className="border border-slate-400/80 rounded-lg px-3 py-0.5 bg-white"
+      className="border border-[#9ac400]/60 rounded-lg px-3 py-0.5 bg-white justify-self-end xl:w-[231px]"
       onChange={(e) => {
         setterCategory !== undefined
           ? handleChangeSelectCategory(e, setterCategory)

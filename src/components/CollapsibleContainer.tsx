@@ -25,7 +25,7 @@ export const CollapsibleRow = ({ title, children, isOpen }: { title: string, chi
         title.length !== 0 && <button className="w-full text-left p-2 font-bold" onClick={toggleCollapse}>{title}</button>
       }
       <div ref={contentRef} style={{ maxHeight }} className="overflow-hidden transition-max-height duration-500 ease-in-out">
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {children}
         </div>
       </div>

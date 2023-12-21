@@ -19,8 +19,8 @@ export const exportToExcel = (fileName: string, data: ExportData) => {
   // Set the starting row for the second table
   // For example, if data1 has 10 rows, start from row 12 (leaving one row empty)
   const startingRow = data.generalData.length + 5
-  const startingRow2 = data.generalData.length + 20
-  const startingRow3 = data.generalData.length + 30
+  const startingRow2 = data.generalData.length + 10
+  const startingRow3 = data.generalData.length + 10
 
   // Add the second data array to the first worksheet, starting at the calculated row
   if (data.pressureData !== undefined) XLSX.utils.sheet_add_json(worksheet, data.pressureData, { origin: { r: startingRow, c: 0 } })

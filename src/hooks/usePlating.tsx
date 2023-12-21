@@ -97,8 +97,6 @@ export const usePlating = () => {
     const sigmaD = Math.min(0.6 * sigmaU, 0.9 * sigmaY)
     const kC = curvatureCorrectionKC()
     const thickness = b * kC * Math.sqrt((currentPressure * k2) / (1000 * sigmaD))
-    console.log({ sigmaD, kC, thickness, currentPressure })
-
     return thickness
   }
 

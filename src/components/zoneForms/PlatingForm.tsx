@@ -3,7 +3,7 @@ import { Input } from '../Input'
 import { Label } from '../Label'
 
 export const PlatingForm = () => {
-  const { b, setB, l, setL, LH, x, setX, LWL, c, setC, zone, material, z, setZ, context, hp, setHp, hs, setHs } = useScantlingsContext()
+  const { b, setB, l, setL, LH, x, setX, LWL, c, setC, zone, material, z, setZ, hp, setHp } = useScantlingsContext()
   return (
     <>
       <Label question='Ingrese la dimensión más corta o base del panel de la lamina "b" (mm): ' htmlFor='b'/>
@@ -34,21 +34,9 @@ export const PlatingForm = () => {
             <Label question='Ingrese la altura de la cubierta, medida desde la linea de flotación (metros): ' htmlFor='z'/>
             <Input value={z} setter={setZ} min={0} key={'z'} name='z'/>
 
-            {
-            context === 'Plating' &&
-              <>
-                <Label question='Ingrese la altura del centro del panel por encima de la linea de flotación (metros): ' htmlFor='hp'/>
-                <Input value={hp} setter={setHp} min={0} key={'hp'} name='hp'/>
-              </>
-            }
+            <Label question='Ingrese la altura del centro del panel por encima de la linea de flotación (metros): ' htmlFor='hp'/>
+            <Input value={hp} setter={setHp} min={0} key={'hp'} name='hp'/>
 
-            {
-            context === 'Stiffeners' &&
-              <>
-                <Label question='Ingrese la altura del centro del refuerzo por encima de la linea de flotación (metros): ' htmlFor='hs'/>
-                <Input value={hs} setter={setHs} min={0} key={'hs'} name='hs'/>
-              </>
-            }
           </>
       }
 

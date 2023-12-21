@@ -3,7 +3,7 @@ import { Input } from '../Input'
 import { Label } from '../Label'
 
 export const StiffenersForm = () => {
-  const { s, lu, setLu, cu, setCu, x, setX, setS, LWL, material, tau, setTau, sigmaCt, setSigmaCt, etc, setEtc, sigmaUf, setSigmaUf } = useScantlingsContext()
+  const { s, lu, setLu, cu, setCu, x, setX, setS, LWL, material, tau, setTau, sigmaCt, setSigmaCt, etc, setEtc, sigmaUf, setSigmaUf, zone, z, hs, setZ, setHs } = useScantlingsContext()
   return (
     <>
       <Label question="Ingrese la separación entre refuerzos 's' (mm): " htmlFor="s"/>
@@ -44,6 +44,18 @@ export const StiffenersForm = () => {
             <Input min={0} name="sigmaUf" setter={setSigmaUf} key={'sigmaUf'} value={sigmaUf}/>
           </>
 
+      }
+
+{
+        zone === 'Costados y Espejo' &&
+          <>
+            <Label question='Ingrese la altura de la cubierta, medida desde la linea de flotación (metros): ' htmlFor='z'/>
+            <Input value={z} setter={setZ} min={0} key={'z'} name='z'/>
+
+            <Label question='Ingrese la altura del centro del refuerzo por encima de la linea de flotación (metros): ' htmlFor='hs'/>
+            <Input value={hs} setter={setHs} min={0} key={'hs'} name='hs'/>
+
+          </>
       }
     </>
   )

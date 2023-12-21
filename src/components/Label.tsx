@@ -1,6 +1,6 @@
-export const Label = ({ question, htmlFor }: { question: string, htmlFor: string }) => {
+export const Label = ({ question, htmlFor, title }: { question: string, htmlFor: string, title?: string }) => {
   return (
-    <label className='break-words' htmlFor={htmlFor}>
+    <label className='xl:w-96 2xl:w-[600px]' htmlFor={htmlFor} title={title}>
       {question}
     </label>
   )

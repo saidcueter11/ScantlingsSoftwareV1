@@ -125,7 +125,6 @@ export const usePressures = () => {
     return Math.max(PBMD, PBMP)
   }
 
-  // Not working
   function calculateSideTransomPressure (): number {
     const kZ = hullSidePressureReductionKZ()
     const kAR = areaPressureReductionKAR()
@@ -160,8 +159,6 @@ export const usePressures = () => {
     return PSUPM
   }
 
-  // from here
-
   function calculateWatertightBulkheadsPressure (): number {
     return 7 * hB
   }
@@ -179,8 +176,6 @@ export const usePressures = () => {
   function calculateCollisionBulkheadsPressure (): number {
     return 10 * hB
   }
-
-  // to here it doesn't work
 
   function structuralBulkheadsPressure (): string {
     return 'Verificar norma ISO 12215-5, inciso 8.3.5 & 11.8'

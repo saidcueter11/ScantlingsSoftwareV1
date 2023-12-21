@@ -52,7 +52,6 @@ export const GeneralPage = () => {
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     setType(V / Math.sqrt(LWL) < 5 ? 'Displacement' : 'Planning')
-    setmLDC(mLDC * 1000)
     navigate(`zone/${zone}`)
   }
 
@@ -70,27 +69,28 @@ export const GeneralPage = () => {
   }, [material])
 
   return (
-    <>
+    <main className='flex lg:gap-10 gap-4 flex-col lg:flex-row lg:mt-5'>
+      <img src='/WhatsApp Image 2023-12-21 at 12.50.55 AM.jpeg' className='border-2 rounded-lg bg-white p-3 border-[#9ac400] max-h-[588px] w-full max-w-xl'/>
       <FormContainer handleSubmit={handleSubmit}>
-        <Label question='Eslora del casco "LH" (metros): ' htmlFor='LH'/>
+        <Label question='Eslora del casco "LH" (metros): ' htmlFor='LH' title='Distancia entre dos planos, uno de ellos situado en la parte más a Proa de la embarcación y otro en la parte más a Popa.'/>
         <Input min={2.5} max={24} value={LH} setter={setLH} name='LH'/>
 
-        <Label question='Eslora en linea de flotación "LWL" (metros): 'htmlFor='LWL'/>
+        <Label question='Eslora en linea de flotación "LWL" (metros): 'htmlFor='LWL' title='Longitud del eje longitudinal del plano de flotación considerado'/>
         <Input min={2.5} max={LH} value={LWL} setter={setLWL} name='LWL'/>
 
-        <Label question='Manga en linea de flotación "BWL" (metros): ' htmlFor='BWL'/>
+        <Label question='Manga en linea de flotación "BWL" (metros): ' htmlFor='BWL' title='Distancia transversal en el punto mas ancho de la linea de flotación'/>
         <Input min={0} value={BWL} setter={setBWL} name='BWL'/>
 
-        <Label question='Manga entre pantoques o "chine" "BC" (metros): ' htmlFor='BC'/>
+        <Label question='Manga entre pantoques o "chine" "BC" (metros): ' htmlFor='BC' title='Distancia transversal en el angulo de astilla muerta de fondo'/>
         <Input min={0} value={BC} setter={setBC} name='BC'/>
 
-        <Label question='Velocidad maxima "V" (Nudos): ' htmlFor='V'/>
+        <Label question='Velocidad maxima "V" (Nudos): ' htmlFor='V' title='Velocidad maxima de diseño de la embarcación'/>
         <Input min={2.36 * Math.sqrt(LWL)} value={V} setter={setV} name='V'/>
 
-        <Label question='Desplazamiento "mLDC" (Toneladas): ' htmlFor='mLDC'/>
+        <Label question='Desplazamiento "mLDC" (Kilogramos): ' htmlFor='mLDC' title='Masa de agua desplazada por la embarcación, cuando está completamente cargada y lista para su uso'/>
         <Input min={0} value={mLDC} setter={setmLDC} name='mLDC'/>
 
-        <Label question={`Ángulo de astilla muerta "B04" en el LCG, o a ${0.4 * LWL >= 0 ? (0.4 * LWL).toFixed(3) : 0} metros de la popa (°grados):`} htmlFor='B04'/>
+        <Label question={'Ángulo de astilla muerta "B04" en el LCG (°grados):'} htmlFor='B04' title={`Se mide a ${0.4 * LWL >= 0 ? (0.4 * LWL).toFixed(3) : 0} metros de la popa (°grados):`}/>
         <Input min={0} value={B04} setter={setB04} name='B04'/>
 
         <Label question='Categoria de diseño:' htmlFor='categoria'/>
@@ -99,25 +99,27 @@ export const GeneralPage = () => {
         <Label question='Material general de la embarcación' htmlFor='material'/>
         <Select array={PLATING_MATERIALS} setter={setMaterial} selectedValue={material}/>
 
-        <CollapsibleRow title='' isOpen={isOpenSingleSkin}>
+        {
+          (isOpenSandwich || isOpenSingleSkin) &&
+            <div className='col-span-2'>
+              <CollapsibleRow title='' isOpen={isOpenSingleSkin}>
+                <Label question='Tipo de fibra de diseño' htmlFor='skin'/>
+                <Select array={SKIN_TYPE} setter={setSkin} selectedValue={skin}/>
+              </CollapsibleRow>
 
-          <Label question='Tipo de fibra de diseño' htmlFor='skin'/>
-          <Select array={SKIN_TYPE} setter={setSkin} selectedValue={skin}/>
+              <CollapsibleRow title='' isOpen={isOpenSandwich}>
+                <Label question='Tipo de fibra exterior' htmlFor='skinExterior'/>
+                <Select array={SKIN_TYPE} setter={setSkinExterior} selectedValue={skinExterior}/>
 
-        </CollapsibleRow>
+                <Label question='Tipo de fibra interior' htmlFor='skinInterior'/>
+                <Select array={SKIN_TYPE} setter={setSkinInterior} selectedValue={skinInterior}/>
 
-        <CollapsibleRow title='' isOpen={isOpenSandwich}>
+                <Label question='Tipo de nucleo del sandwich' htmlFor='core'/>
+                <Select array={CORE_MATERIALS} setter={setCore} selectedValue={core}/>
 
-            <Label question='Tipo de fibra exterior' htmlFor='skinExterior'/>
-            <Select array={SKIN_TYPE} setter={setSkinExterior} selectedValue={skinExterior}/>
-
-            <Label question='Tipo de fibra interior' htmlFor='skinInterior'/>
-            <Select array={SKIN_TYPE} setter={setSkinInterior} selectedValue={skinInterior}/>
-
-            <Label question='Tipo de nucleo del sandwich' htmlFor='core'/>
-            <Select array={CORE_MATERIALS} setter={setCore} selectedValue={core}/>
-
-        </CollapsibleRow>
+              </CollapsibleRow>
+            </div>
+        }
 
         <Label question='Zona de escantillonado' htmlFor='zona'/>
         <Select array={ZONES} setter={setZone} selectedValue={zone}/>
@@ -125,10 +127,10 @@ export const GeneralPage = () => {
         <Label question='Tipo de analisis' htmlFor='context'/>
         <Select array={CONTEXT} setter={setContext} selectedValue={context}/>
 
-        <div>
+        <div className='col-start-1'>
           <PrimaryButton text='Aceptar'/>
         </div>
       </FormContainer>
-    </>
+    </main>
   )
 }

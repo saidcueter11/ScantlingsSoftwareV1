@@ -9,7 +9,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate()
 
   const handleLogin = () => {
-    if (username.endsWith('@cotecmar.com')) {
+    if (username.endsWith('@cotecmar.com') && password.length > 0) {
       // Perform authentication logic here (replace with your actual logic)
       // If authentication fails, set an error message
       const authenticationFailed = false // Replace with your authentication logic result
@@ -17,8 +17,6 @@ const Login: React.FC = () => {
         setErrorMessage('Authentication failed. Please check your credentials.')
       } else {
         // Successful authentication
-        console.log('Username:', username)
-        console.log('Password:', password)
         navigate('/general')
       }
     } else {
@@ -32,7 +30,7 @@ const Login: React.FC = () => {
         <nav className='w-screen pt-6 pl-6 absolute top-0'>
           <img className='h-16 mb-5 md:ml-8 md:mt-3' src="/LOGOTIPO ECOTEA-06.png" alt="" />
         </nav>
-        <div className="bg-white p-8 rounded-lg shadow-md w-96">
+        <div className="bg-white p-8 rounded-lg shadow-md w-96 max-w-xs sm:max-w-none">
           <h2 className="text-2xl font-semibold mb-4">Login</h2>
           {(errorMessage.length > 0) && (
           <div className="mb-4 text-red-500">{errorMessage}</div>
