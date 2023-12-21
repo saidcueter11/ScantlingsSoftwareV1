@@ -12,7 +12,7 @@ export const NavBar = () => {
   return (
       <div className="relative w-full">
         <div className={`bg-white flex flex-col shadow-lg rounded-lg h-full max-w-xs min-w-fit w-2/4 fixed z-20 top-0 right-0 p-4 ${!isOpen ? 'translate-x-full' : 'translate-x-0'} transition-transform`}>
-          <img src="/public/WhatsApp Image 2023-12-11 at 7.50.54 AM.jpeg" alt="" className='w-44 absolute bottom-8'/>
+          <img src="/WhatsApp Image 2023-12-11 at 7.50.54 AM.jpeg" alt="" className='w-44 absolute bottom-8'/>
           <div className='flex items-center gap-4'>
             <svg onClick={handleClick} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 hover:cursor-pointer">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
