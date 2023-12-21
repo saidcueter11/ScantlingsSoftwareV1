@@ -18,22 +18,26 @@ export const NavBar = () => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
 
-            <h4 className='font-bold text-[#5c7f63]'>Definiciones</h4>
+            <h4 className='font-bold text-[#5c7f63]'>Ayudas u Opciones</h4>
           </div>
 
           <div className='flex flex-col mt-4 gap-2'>
             <a target='_blank' href="/ISO 12215-5 (2).pdf">ISO 12215-5</a>
             <a target='_blank' href="/Definiciones y Acrónimos (1).pdf">Definiciones y Acrónimos</a>
+            <a target='_blank' href="/Manual de usuario.pdf">Manual de usuario</a>
           </div>
         </div>
 
         <nav className="py-3 w-full flex justify-between items-center ">
           <img className='h-16' src="/LOGOTIPO ECOTEA-06.png" alt="" />
 
-          <div onClick={handleClick} className='hover:cursor-pointer border-2 border-black border-opacity-0 hover:border-opacity-80 rounded-lg transition-opacity'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
+          <div className='flex items-center gap-4 hover:cursor-pointer' onClick={handleClick}>
+            <p className='font-medium text-[#5c7f63]'>Menu de ayuda</p>
+            <div className='hover:cursor-pointer border-2 border-black border-opacity-0 hover:border-opacity-80 rounded-lg transition-opacity'>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#5c7f63" className="w-8 h-8">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </div>
           </div>
         </nav>
 

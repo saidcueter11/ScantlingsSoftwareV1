@@ -15,7 +15,7 @@ export const StiffenersForm = () => {
       <Label question="Ingrese la corona o curvatura si el refuerzo es curvo 'cu': " htmlFor="cu"/>
       <Input min={0} name="cu" setter={setCu} key={'cu'} value={cu}/>
 
-      <Label question="Ingrese la distancia desde la popa hasta la posición longitudinal del centro del panel o centro del refuerzo analizado: " htmlFor="x"/>
+      <Label question="Distancia desde popa hasta el centro del panel o refuerzo 'x' (metros): " htmlFor="x"/>
       <Input min={0} name="x" setter={setX} key={'x'} value={x} max={LWL}/>
 
       {

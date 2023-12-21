@@ -60,98 +60,76 @@ export const ZonePage = () => {
     resetStates()
   }
 
-  const renderResults = ({ platingData, stiffenerData }: { platingData: PlatingResult, stiffenerData: StiffenerResult }) => {
+  const renderResults = ({ platingData, stiffenerData }: { platingData?: PlatingResult, stiffenerData?: StiffenerResult }) => {
     const flag = context === 'Plating' ? platingData : stiffenerData
 
     const isPlating = (data: PlatingResult | StiffenerResult): data is PlatingResult => {
       return context === 'Plating' && 'type' in data && data.type !== undefined
     }
 
-    return (
-      <div className="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Propiedad</th>
-              <th>Valor</th>
-            </tr>
-          </thead>
-          <tbody>
-            {flag?.type === 'Metal' && (
-              <>
-                {isPlating(flag)
-                  ? (
-                  <tr>
-                    <td>El espesor (Metal)</td>
-                    <td>{tFinal?.toFixed(3)}</td>
-                  </tr>
-                    )
-                  : (
-                  <>
-                    <tr>
-                      <td>Área del Alma (cm²)</td>
-                      <td>{flag?.AW}</td>
-                    </tr>
-                    <tr>
-                      <td>Módulo de sección (cm³)</td>
-                      <td>{flag?.SM}</td>
-                    </tr>
-                  </>
-                    )}
-              </>
-            )}
+    switch (flag?.type) {
+      case 'Metal':
+        if (isPlating(flag)) {
+          return <p>El espesor (Metal) es: {tFinal?.toFixed(3)}[mm]</p>
+        } else {
+          return (
+          <div>
+            <p>Área del Alma (cm²): {flag?.AW}</p>
+            <p>Módulo de seccion (cm³): {flag?.SM}</p>
+          </div>
+          )
+        }
+      case 'SingleSkin':
+        if (isPlating(flag)) {
+          return (
+          <div>
+            <p>El espesor (Fibra Laminada) es: {tFinal?.toFixed(3)}[mm]</p>
+            <p>Minimo espesor requerido: {wMin}</p>
+          </div>
+          )
+        } else {
+          return (
+          <div>
+            <p>Área del Alma (cm²): {flag?.AW}</p>
+            <p>Módulo de seccion (cm³): {flag?.SM}</p>
+            <p>Segundo momento de inercia (cm⁴): {flag?.I}</p>
+          </div>
+          )
+        }
+      case 'FrpSandwich':
+        if (isPlating(flag)) {
+          return (
+          <div>
+            <p>El espesor (Sandwich de FRP) es: {thickness}[mm]</p>
+            <p>Interior SM: {smInner}</p>
+            <p>Exterior SM: {smOuter}</p>
+            <p>Segundo momento de área I: {secondI}</p>
+            <p>Minimo espesor requerido: {wMin}</p>
+          </div>
+          )
+        } else {
+          return (
+          <div>
+            <p>Área del Alma (cm²): {flag?.AW}</p>
+            <p>Módulo de seccion (cm³): {flag?.SM}</p>
+            <p>Segundo momento de inercia (cm⁴): {flag?.I}</p>
+          </div>
+          )
+        }
+      case 'Wood':
+        if (isPlating(flag)) {
+          return <p>El espesor (Madera) es: {tFinal?.toFixed(3)}[mm]</p>
+        }
 
-            {flag?.type === 'SingleSkin' && (
-              <>
-                <tr>
-                  <td>El espesor (Fibra Laminada)</td>
-                  <td>{tFinal?.toFixed(3)}</td>
-                </tr>
-                <tr>
-                  <td>Minimo espesor requerido</td>
-                  <td>{wMin}</td>
-                </tr>
-              </>
-            )}
-
-            {flag?.type === 'FrpSandwich' && (
-              <>
-                <tr>
-                  <td>El espesor (Sandwich de FRP)</td>
-                  <td>{thickness}</td>
-                </tr>
-                <tr>
-                  <td>Interior SM</td>
-                  <td>{smInner}</td>
-                </tr>
-                <tr>
-                  <td>Exterior SM</td>
-                  <td>{smOuter}</td>
-                </tr>
-                <tr>
-                  <td>Segundo momento de área I</td>
-                  <td>{secondI}</td>
-                </tr>
-                <tr>
-                  <td>Minimo espesor requerido</td>
-                  <td>{wMin}</td>
-                </tr>
-              </>
-            )}
-
-            {flag?.type === 'Wood' && (
-              <>
-                <tr>
-                  <td>El espesor (Madera)</td>
-                  <td>{tFinal?.toFixed(3)}</td>
-                </tr>
-              </>
-            )}
-
-          </tbody>
-        </table>
-      </div>
-    )
+        return (
+          <div>
+            <p>Área del Alma (cm²): {flag?.AW}</p>
+            <p>Módulo de seccion (cm³): {flag?.SM}</p>
+          </div>
+        )
+      default:
+        return <p>No hay datos disponibles para este material.</p>
+    }
   }
 
   const renderZoneResults = () => {
@@ -326,6 +304,14 @@ export const ZonePage = () => {
     context === 'Stiffeners' && exportToExcel('Test', { generalData, stiffenerData, pressureData })
   }
 
+  const handleOpenExcel = () => {
+    // Specify the path to your Excel file in the public folder
+    const excelFilePath = '/Base de datos perfiles.xlsx'
+
+    // Open the Excel file in a new tab or window
+    window.open(excelFilePath, '_blank')
+  }
+
   return (
     <>
       <section className='flex flex-col justify-between text-center gap-2 max-w-xs sm:max-w-xl lg:max-w-4xl mt-5'>
@@ -363,6 +349,7 @@ export const ZonePage = () => {
               <PrimaryButton handleClick={goBack} text='Ir Atras'/>
               <PrimaryButton handleClick={handleExportToExcel} text='Exportar Excel'/>
               <PrimaryButton handleClick={handleReset} text='Nuevo calculo'/>
+              <PrimaryButton handleClick={handleOpenExcel} text='Base de datos'/>
             </div>
 
           </FormContainer>

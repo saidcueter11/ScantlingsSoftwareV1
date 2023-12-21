@@ -15,7 +15,7 @@ export const PlatingForm = () => {
       {
         (zone === 'Fondo' || zone === 'Cubierta' || zone === 'Costados y Espejo') &&
           <>
-            <Label question='Ingrese la distancia desde la popa hasta la posición longitudinal del centro del panel o centro del refuerzo analizado (metros): ' htmlFor='x'/>
+            <Label question='Distancia desde popa hasta el centro del panel o refuerzo "x" (metros): ' htmlFor='x'/>
             <Input value={x} setter={setX} min={0} key={'x'} name='x' max={LWL}/>
           </>
       }
